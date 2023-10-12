@@ -325,7 +325,7 @@ bindsym $mod+Shift+Escape mode "$mode_system"
 # Start up Applications ##
 
 # set wallpaper
-exec --no-startup-id feh --bg-fill $DOTFILES/assets/wallpaper-desert.jpg
+exec --no-startup-id feh --bg-fill $DOTFILES/assets/wallpaper_desert.jpg
 
 #start dunst (notifications)
 exec --no-startup-id dunst
