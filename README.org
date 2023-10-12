@@ -1,0 +1,6 @@
+#+title: My collection of dotfiles
+#+author: Rob Kiggen
+
+This repository stores my personal .dotfiles.
+Most of my configuration nowadays is managed via Nix.
+

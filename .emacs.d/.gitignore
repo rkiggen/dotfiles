@@ -1,0 +1,9 @@
+# Exclude these files:
+
+
+# Exclude these folders:
+/auto-save-list/
+/backup/
+/eln-cache/
+/elpa/
+/transient/
