@@ -327,6 +327,9 @@ bindsym $mod+Shift+Escape mode "$mode_system"
 # set wallpaper
 exec --no-startup-id feh --bg-fill $DOTFILES/assets/wallpaper_desert.jpg
 
+# auto order displays
+exec --no-startup-id $I3_CONFIG/scripts/autoxrandr.sh
+
 #start dunst (notifications)
 exec --no-startup-id dunst
 
