@@ -11,7 +11,7 @@ separator_block_width=15
 
 [separator4]
 color=#676E7D
-full_text=""
+full_text=
 
 [lan]
 #instance=enp55s0
@@ -27,7 +27,7 @@ interval=10
 
 [separator3]
 color=#676E7D
-full_text=""
+full_text=
 
 [temperature]
 label= 
@@ -43,7 +43,7 @@ color=#E69D00
 
 [separator2]
 color=#676E7D
-full_text=""
+full_text=
 
 [volume]
 #full_text=" 67%"
@@ -55,16 +55,15 @@ color=#AAAAAA
 markup=pango
 
 [battery]
-command=$SCRIPT_DIR/battery.sh
+command=$SCRIPT_DIR/battery
 interval=5
 color=#AAAAAA
 
 [separator1]
 color=#676E7D
-full_text=""
+full_text=
 
 [datetime]
-#label= 
 label=
 #command=$SCRIPT_DIR/datetime
 command=date '+(W%W) %a %d %b  %H:%M'
@@ -73,11 +72,11 @@ color=#119966
 
 [separator0]
 color=#676E7D
-full_text=""
+full_text=
 
-#[power]
-#color=#f3f4f5
-#full_text=" "
-#command=$SCRIPT_DIR/shutdown_menu
+[power]
+color=#f3f4f5
+full_text=⏻
+command=$SCRIPT_DIR/shutdown_menu
 #LAUNCHER=rofi
 #ROFI_TEXT=Power menu

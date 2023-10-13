@@ -19,9 +19,11 @@ set $BRIGHTEN_LIGHT light -A 10
 include $I3_CONFIG/themes/dracula.conf
 include $I3_CONFIG/rules.conf
 
-## Variables ##
+# auto order displays
+exec --no-startup-id $I3_CONFIG/scripts/autoxrandr.sh
 
-# Workspace variables
+
+## Workspaces
 # I consider workspaces to be contexts in which I work 
 # 1: terminals, 2: filebrowser, 3: dev, 4: text processing, 5: browser, 6: mail, 7: media, 8: not applicable, 9: not applicable, 10: other/various
 # icons via font-awesome: https://fontawesome.com/v5/cheatsheet/free/solid
@@ -138,9 +140,9 @@ set $volumestep 5
 #bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q set Master 5%-
 #bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggle
 
-#bindsym XF86AudioRaiseVolume exec --no-startup-id $volumepath/volume -an -t $statuscmd -u $statussig up $volumestep
-#bindsym XF86AudioLowerVolume exec --no-startup-id $volumepath/volume -an -t $statuscmd -u $statussig down $volumestep
-#bindsym XF86AudioMute        exec --no-startup-id $volumepath/volume -an -t $statuscmd -u $statussig mute
+bindsym XF86AudioRaiseVolume exec --no-startup-id $volumepath/volume -an -t $statuscmd -u $statussig up $volumestep
+bindsym XF86AudioLowerVolume exec --no-startup-id $volumepath/volume -an -t $statuscmd -u $statussig down $volumestep
+bindsym XF86AudioMute        exec --no-startup-id $volumepath/volume -an -t $statuscmd -u $statussig mute
 
 # Key Bindings: Screen brightness controls ##
 bindsym XF86MonBrightnessDown exec --no-startup-id $DIM_LIGHT
@@ -328,7 +330,7 @@ bindsym $mod+Shift+Escape mode "$mode_system"
 exec --no-startup-id feh --bg-fill $DOTFILES/assets/wallpaper_desert.jpg
 
 # auto order displays
-exec --no-startup-id $I3_CONFIG/scripts/autoxrandr.sh
+#exec --no-startup-id $I3_CONFIG/scripts/autoxrandr.sh
 
 #start dunst (notifications)
 exec --no-startup-id dunst
