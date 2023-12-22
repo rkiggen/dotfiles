@@ -1,5 +1,5 @@
 # Exclude these files:
-
+session.*
 
 # Exclude these folders:
 /auto-save-list/
