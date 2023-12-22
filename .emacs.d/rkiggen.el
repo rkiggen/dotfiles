@@ -35,11 +35,19 @@
 ;; Don't write lock-files
 (setq create-lockfiles nil)
 
-;; Keyboard-centric user interface
+;; Create a keyboard-centric user interface
+
+;; don't display startup messages
 (setq inhibit-startup-message t)
+;; disable the toolbar
 (tool-bar-mode -1)
+;; disable the menubar (you can access the menu via 'C-mouse-3'
 (menu-bar-mode -1)
+;; disable the scrollbars
 (scroll-bar-mode -1)
+;; display line numbers in every buffer
+(global-display-line-numbers-mode 1) 
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (use-package doom-themes
@@ -82,14 +90,18 @@
   (advice-add 'mood-line-segment-buffer-name :around #'pt/mood-line-segment-project-advice)
   (mood-line-mode))
 
-;; Sensible line breaking
-  (add-hook 'text-mode-hook 'visual-line-mode)
-  
-  ;; Overwrite selected text
-  (delete-selection-mode t)
-  
-  ;; Scroll to the first and last line of the buffer
-  (setq scroll-error-top-bottom t)
+;; Wrap lines near 120 characters
+(setq-default fill-column 120)  
+(add-hook 'text-mode-hook 'auto-fill-mode)
+
+;; Overwrite selected text
+(delete-selection-mode t)
+
+;; Scroll to the first and last line of the buffer
+(setq scroll-error-top-bottom t)
+
+;; highlight the current line
+(global-hl-line-mode)
 
 ;;; Vim Bindings
 (use-package evil
@@ -117,6 +129,37 @@
 
 ;;(require 'ox-reveal)
 (setq org-reveal-root "file:///home/rkiggen/.emacs.d/publishing/slides/reveal.js")
+
+(setq org-latex-listings 'listings)
+(require 'ox-latex)
+(add-to-list 'org-latex-packages-alist '("" "listings"))
+
+;(setq org-latex-minted-options
+;        '(("frame" "lines") ("linenos=true")))
+
+;(setq org-latex-pdf-process
+;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+;(setq org-src-fontify-natively t)
+(defun get-string-from-file (filePath)
+  "Return filePath's file content."
+  (with-temp-buffer
+    (insert-file-contents filePath)
+    (buffer-string)))
+
+(defun read-lines (filePath)
+  "Return a list of lines of a file at filePath."
+  (with-temp-buffer
+    (insert-file-contents filePath)
+    (split-string (buffer-string) "\n" t)))
+
+(mapc 'load (file-expand-wildcards "~/.emacs.d/publishing/latex/*/*.el"))
+
+(use-package ox-awesomecv
+  :load-path "~/.emacs.d/lisp/org-cv"
+  :init (require 'ox-awesomecv))
 
 (defun edit-init-file ()
   "Edit my init file in another window."

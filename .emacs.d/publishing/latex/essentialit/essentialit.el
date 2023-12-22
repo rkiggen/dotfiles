@@ -1,7 +1,11 @@
 (setq templateFile "essentialit.sty")
 (setq templateFolder (file-name-directory (or load-file-name buffer-file-name)))
 (setq templatePath(concat templateFolder templateFile))
-(setq template  (replace-regexp-in-string  "<TEMPLATEFOLDER>"  templateFolder (get-string-from-file templatePath)))
+
+;; Replace <templatefolder> string with actual path
+;; (replace-regexp-in-string "REGEXP" REP "STRING" &optional FIXEDCASE LITERAL SUBEXP START)
+;; set FIXEDCASE argument to t for turning of emacs smart case-sensitity system
+(setq template  (replace-regexp-in-string  "<templatefolder>"  templateFolder (get-string-from-file templatePath) t t))
 
 (provide 'essentialit)
 

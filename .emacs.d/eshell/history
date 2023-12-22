@@ -1,0 +1,16 @@
+ll
+ls -alh
+ls 
+ls
+cd Notes
+cd ~/Development/rkiggen/resume/
+ll
+ls
+ls
+cd ~/.config/nixos/
+ll
+ls
+cd profiles
+ls
+cd rkiggen/
+ls

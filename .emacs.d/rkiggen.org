@@ -61,12 +61,20 @@ Add a function to emacs-startup-hook to print out the duration of Emacs startup:
 
 ** Keyboard Centric User Interface
 #+BEGIN_SRC emacs-lisp
-;; Keyboard-centric user interface
-(setq inhibit-startup-message t)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(defalias 'yes-or-no-p 'y-or-n-p)
+  ;; Create a keyboard-centric user interface
+
+  ;; don't display startup messages
+  (setq inhibit-startup-message t)
+  ;; disable the toolbar
+  (tool-bar-mode -1)
+  ;; disable the menubar (you can access the menu via 'C-mouse-3'
+  (menu-bar-mode -1)
+  ;; disable the scrollbars
+  (scroll-bar-mode -1)
+  ;; display line numbers in every buffer
+  (global-display-line-numbers-mode 1) 
+
+  (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 
 ** Themes
@@ -126,17 +134,22 @@ The default modeline is pretty uninspiring, and mood-line is very minimal and pl
 
 * Writing
 
-If prefer lines to wrap.
+I prefer lines to wrap, but instead of using =visual-line-mode= which wraps long lines near the window border, I like to wrap my lines at approx. 120 characters.
+Individual languages/major modes can override this.
 
 #+BEGIN_SRC emacs-lisp
-;; Sensible line breaking
-  (add-hook 'text-mode-hook 'visual-line-mode)
-  
+  ;; Wrap lines near 120 characters
+  (setq-default fill-column 120)  
+  (add-hook 'text-mode-hook 'auto-fill-mode)
+
   ;; Overwrite selected text
   (delete-selection-mode t)
-  
+
   ;; Scroll to the first and last line of the buffer
-  (setq scroll-error-top-bottom t)  
+  (setq scroll-error-top-bottom t)
+
+  ;; highlight the current line
+  (global-hl-line-mode) 
 #+END_SRC
 
 
@@ -201,6 +214,52 @@ For more info please look here: https://github.com/fniessen/org-html-themes
 
   ;;(require 'ox-reveal)
   (setq org-reveal-root "file:///home/rkiggen/.emacs.d/publishing/slides/reveal.js")
+#+END_SRC
+
+** Latex/Pdf
+
+*** Documents
+Load regular used, custom Latex templates:
+
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-listings 'listings)
+(require 'ox-latex)
+(add-to-list 'org-latex-packages-alist '("" "listings"))
+
+;(setq org-latex-minted-options
+;        '(("frame" "lines") ("linenos=true")))
+
+;(setq org-latex-pdf-process
+;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+;(setq org-src-fontify-natively t)
+(defun get-string-from-file (filePath)
+  "Return filePath's file content."
+  (with-temp-buffer
+    (insert-file-contents filePath)
+    (buffer-string)))
+
+(defun read-lines (filePath)
+  "Return a list of lines of a file at filePath."
+  (with-temp-buffer
+    (insert-file-contents filePath)
+    (split-string (buffer-string) "\n" t)))
+
+(mapc 'load (file-expand-wildcards "~/.emacs.d/publishing/latex/*/*.el"))
+#+END_SRC
+
+*** Resume's
+I like the concept of keeping content and layout separated as much as possible.
+The =Org CV= package from [[https://titan-c.gitlab.io/org-cv/][TitanC]] allows to do just that for my resume's.
+
+Zzamboni contributed the [[https://github.com/zzamboni/vita][AwesomeCV]] layout which I'll be using.
+
+#+BEGIN_SRC emacs-lisp
+(use-package ox-awesomecv
+  :load-path "~/.emacs.d/lisp/org-cv"
+  :init (require 'ox-awesomecv))  
 #+END_SRC
 
 * Custom Functions

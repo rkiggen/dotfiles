@@ -1,4 +1,4 @@
-\newcommand*{\TemplatePath} {<TEMPLATEFOLDER>}% 
+\newcommand*{\TemplatePath} {<templatefolder>}%
 \documentclass[12pt]{article}
 % \usepackage[includeheadfoot,margin=1.0in,hmargin=1.0in,vmargin=0.5in]{geometry} % for normal margins
 \usepackage[includeheadfoot,margin=1.5in,hmargin=1.5in,vmargin=0.5in]{geometry} % for insanely wide margins
@@ -64,7 +64,9 @@
 %inside the tikzpicture environment, you can do anything you want with the image
 \begin{tikzpicture}
 
-\node [inner sep=0pt,outer sep=0pt] at (0,0) {\includegraphics[width=\paperwidth,height=\paperheight]{\TemplatePath/images/cover.jpg}};
+\usepackage{graphicx}   % or graphics; put in preamble
+\graphicspath{ {\TemplatePath/images/} }
+\node [inner sep=0pt,outer sep=0pt] at (0,0) {\includegraphics[width=\paperwidth,height=\paperheight]{cover.jpg}};
 
 \node at  (0,5) [opacity=1.0] {\parbox[b][0.5\textheight]{\textwidth}{%
   \begin{raggedright}
@@ -86,7 +88,7 @@
 	\newline\newline	
 {\myauthorfont\bfseries\textcolor{pinterestblack}{Essential IT}}
     \newline
-{\myauthorfont\textcolor{pinterestblack} {Steenstraat 16 · B-3930 Hamont-Achel · BTW BE0550736801 · RPR Tongeren}}	
+{\myauthorfont\textcolor{pinterestblack} { Steenstraat 16 · B-3930 Hamont-Achel · BTW BE0550736801 · RPR Tongeren }}
 	\newline
 \end{raggedright}
 }};
