@@ -190,6 +190,18 @@ Instead of typing <s for inserting a source code block you now have to type the 
 
 _Fun fact:_ the key binding C-, does not work in terminal emacs!
 
+*** Calendaring
+I'd like to have a global (integrated) view of all my calendars in Orgmode Agenda
+
+I do this by syncing all calendars via caldav to Orgmode:
+https://www.reddit.com/r/orgmode/comments/8rl8ep/making_orgcaldav_useable/
+
+;(setq org-caldav-calendars
+;  '((:calendar-id "Robby"
+;		:url "https://www.google.com/calendar/dav/rob.kiggen@gmail.com/events/"
+;		:inbox "~/Brain/org/calendars/personal.org")))
+
+
 * Exporting
 
 ** Html
