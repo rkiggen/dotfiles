@@ -130,19 +130,29 @@
 ;;(require 'ox-reveal)
 (setq org-reveal-root "file:///home/rkiggen/.emacs.d/publishing/slides/reveal.js")
 
-(setq org-latex-listings 'listings)
-(require 'ox-latex)
-(add-to-list 'org-latex-packages-alist '("" "listings"))
+;    (setq org-latex-listings 'listings)
+;    (require 'ox-latex)
 
-;(setq org-latex-minted-options
-;        '(("frame" "lines") ("linenos=true")))
+;    (add-to-list 'org-latex-packages-alist '("" "listings"))
+  
+	;; LaTeX PDF Export settings
+        (use-package ox-latex
+  	:ensure nil
+  	:demand t
+  	:custom
+        ;; Multiple LaTeX passes for bibliographies
+  	(org-latex-pdf-process
+  	 '("pdflatex -interaction nonstopmode -output-directory %o %f"
+  	   "bibtex %b"
+  	   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+  	   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+	  ;; Clean temporary files after export
+  	(org-latex-logfiles-extensions
+  	 (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out"
+  		 "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk"
+  		 "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"
+  		 "tex" "bcf"))))
 
-;(setq org-latex-pdf-process
-;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
-;(setq org-src-fontify-natively t)
 (defun get-string-from-file (filePath)
   "Return filePath's file content."
   (with-temp-buffer
@@ -155,7 +165,7 @@
     (insert-file-contents filePath)
     (split-string (buffer-string) "\n" t)))
 
-(mapc 'load (file-expand-wildcards "~/.emacs.d/publishing/latex/*/*.el"))
+(mapc 'load (file-expand-wildcards "~/.emacs.d/publishing/latex/*.el"))
 
 (use-package ox-awesomecv
   :load-path "~/.emacs.d/lisp/org-cv"

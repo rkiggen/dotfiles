@@ -104,7 +104,8 @@ Most major modes pollute the modeline, so we pull in diminish.el to quiesce them
   (diminish 'visual-line-mode))
 #+END_SRC
 
-The default modeline is pretty uninspiring, and mood-line is very minimal and pleasing. With a bit of elbow grease, it can be convinced to show the project-relative file name. 
+The default modeline is pretty uninspiring, and mood-line is very minimal and pleasing. With a bit of elbow grease, it
+can be convinced to show the project-relative file name.
 
 #+BEGIN_SRC emacs-lisp
 (defun pt/project-relative-file-name (include-prefix)
@@ -134,8 +135,8 @@ The default modeline is pretty uninspiring, and mood-line is very minimal and pl
 
 * Writing
 
-I prefer lines to wrap, but instead of using =visual-line-mode= which wraps long lines near the window border, I like to wrap my lines at approx. 120 characters.
-Individual languages/major modes can override this.
+I prefer lines to wrap, but instead of using =visual-line-mode= which wraps long lines near the window border, I like to
+wrap my lines at approx. 120 characters. Individual languages/major modes can override this.
 
 #+BEGIN_SRC emacs-lisp
   ;; Wrap lines near 120 characters
@@ -183,10 +184,12 @@ Individual languages/major modes can override this.
 
 ** Org Mode
 
-Org mode is for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and effective plain-text system.
+Org mode is for keeping notes, maintaining TODO lists, planning projects, and authoring documents with a fast and
+effective plain-text system. 
 
-Since Org Mode 9.2 the smart template system has been replaced with the structured template system and the corresponding key bindings have been changed as well.
-Instead of typing <s for inserting a source code block you now have to type the following key binding =C-c C-,= (org-insert-structure-template).
+Since Org Mode 9.2 the smart template system has been replaced with the structured template system and the corresponding
+key bindings have been changed as well. Instead of typing <s for inserting a source code block you now have to type the
+following key binding =C-c C-,= (org-insert-structure-template). 
 
 _Fun fact:_ the key binding C-, does not work in terminal emacs!
 
@@ -202,10 +205,22 @@ https://www.reddit.com/r/orgmode/comments/8rl8ep/making_orgcaldav_useable/
 ;		:inbox "~/Brain/org/calendars/personal.org")))
 
 
-* Exporting
+* Publishing
+:PROPERTIES:
+:LINK: https://lucidmanager.org/productivity/publishing-with-org-mode-export/
+:END:
+
+Emacs Org mode is an ideal tool for writing without distractions because working with plain text allows you to focus on
+content instead of design. While writing articles and books in plain text is pleasant and productive, it is not ideal
+for sharing your work. The Org mode exports your work to PDF leveraging LaTeX, to a website, to a word processor
+document, an ebook and many more formats.
+
+In this section we'll define the settings for exporting your work as a journal article, a print-ready book PDF, or an
+ebook. 
 
 ** Html
-Under the folder =~/.emacs.d/publishing/html= I place the export templates I use on a regular basis when I export to Html.
+Under the folder =~/.emacs.d/publishing/html= I place the export templates I use on a regular basis when I export to
+Html. 
 
 Currently these are:
 1. theme-bigblow;
@@ -213,7 +228,7 @@ Currently these are:
 3. theme-thing;
 
 These layouts can be used by adding the following to your emacs file:
-#+setupfile: location to the html template, e.g. ~/.emacs.d/publishing/html/theme-readtheorg.setup
+#+SETUPFILE: location to the html template, e.g. ~/.emacs.d/publishing/html/theme-readtheorg.setup
 
 For more info please look here: https://github.com/fniessen/org-html-themes 
 
@@ -229,40 +244,88 @@ For more info please look here: https://github.com/fniessen/org-html-themes
 #+END_SRC
 
 ** Latex/Pdf
+In the folder =~/.emacs.d/publishing/latex= you can find all my regularly used LaTeX templates. 
 
-*** Documents
-Load regular used, custom Latex templates:
+These layouts can be used by adding the following to your org file:
+#+SETUPFILE: location to the latex template
 
+First we need to define the necessary PDF export settings:
 #+BEGIN_SRC emacs-lisp
-(setq org-latex-listings 'listings)
-(require 'ox-latex)
-(add-to-list 'org-latex-packages-alist '("" "listings"))
 
-;(setq org-latex-minted-options
-;        '(("frame" "lines") ("linenos=true")))
+;    (setq org-latex-listings 'listings)
+;    (require 'ox-latex)
 
-;(setq org-latex-pdf-process
-;      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-;        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+;    (add-to-list 'org-latex-packages-alist '("" "listings"))
+  
+	;; LaTeX PDF Export settings
+        (use-package ox-latex
+  	:ensure nil
+  	:demand t
+  	:custom
+        ;; Multiple LaTeX passes for bibliographies
+  	(org-latex-pdf-process
+  	 '("pdflatex -interaction nonstopmode -output-directory %o %f"
+  	   "bibtex %b"
+  	   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+  	   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+	  ;; Clean temporary files after export
+  	(org-latex-logfiles-extensions
+  	 (quote ("lof" "lot" "tex~" "aux" "idx" "log" "out"
+  		 "toc" "nav" "snm" "vrb" "dvi" "fdb_latexmk"
+  		 "blg" "brf" "fls" "entoc" "ps" "spl" "bbl"
+  		 "tex" "bcf"))))
 
-;(setq org-src-fontify-natively t)
-(defun get-string-from-file (filePath)
-  "Return filePath's file content."
-  (with-temp-buffer
-    (insert-file-contents filePath)
-    (buffer-string)))
 
-(defun read-lines (filePath)
-  "Return a list of lines of a file at filePath."
-  (with-temp-buffer
-    (insert-file-contents filePath)
-    (split-string (buffer-string) "\n" t)))
-
-(mapc 'load (file-expand-wildcards "~/.emacs.d/publishing/latex/*/*.el"))
 #+END_SRC
 
-*** Resume's
+Under the folder =~/.emacs.d/publishing/latex= we defined our own custom base LaTeX templates in separate .el files
+(which can be used in our .setup files):
+
+#+BEGIN_SRC emacs-lisp
+  
+  (defun get-string-from-file (filePath)
+    "Return filePath's file content."
+    (with-temp-buffer
+      (insert-file-contents filePath)
+      (buffer-string)))
+
+  (defun read-lines (filePath)
+    "Return a list of lines of a file at filePath."
+    (with-temp-buffer
+      (insert-file-contents filePath)
+      (split-string (buffer-string) "\n" t)))
+
+  (mapc 'load (file-expand-wildcards "~/.emacs.d/publishing/latex/*.el"))
+
+#+END_SRC
+
+Below you'll find an overview of the [[https://latex-tutorial.com/documentclass-latex/][document classes]]:
+
+| latex    | usage                                                                                        | org               |
+| document |                                                                                              | latex             |
+| classes  |                                                                                              | base class        |
+|----------+----------------------------------------------------------------------------------------------+-------------------|
+| article  | To produce articles for scientific journals, short reports, program documentation, and, in   | org-plain-article |
+|          | general, any kind of short document that doesn't need a complex division into chapters       |                   |
+|          | and parts                                                                                    |                   |
+| report   | A kind of long article that can contain several chapters. It is usually used for small books | org-plain-report  |
+|          | and thesis.                                                                                  |                   |
+| book     | Used to typeset real books, includes all the kinds of typesetting standards that one may     | org-plain-book    |
+|          | expect from a printed book: chapters and parts, two kinds of pages, a front matter, etc      |                   |
+| slides   | It was used to produce slides, although the external package beamer is much more             |                   |
+|          | powerful for this purpose.                                                                   |                   |
+| letter   | For writing letters.                                                                         |                   |
+
+The first 2 document classes are the basic ones; if you don't know what document class you should use, always start with
+article.
+
+The report class is very similar, the main difference with the article being that you can insert chapters with \chapter,
+while in the article class the highest element in the hierarchy of titles is the \section command.
+
+** Libre Office Writer / Microsoft Word
+Load regular used, custom Latex templates:
+
+** Resume's
 I like the concept of keeping content and layout separated as much as possible.
 The =Org CV= package from [[https://titan-c.gitlab.io/org-cv/][TitanC]] allows to do just that for my resume's.
 

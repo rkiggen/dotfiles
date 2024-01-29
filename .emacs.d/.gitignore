@@ -6,4 +6,5 @@ session.*
 /backup/
 /eln-cache/
 /elpa/
+/eshell/
 /transient/
