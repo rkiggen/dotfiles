@@ -1,5 +1,11 @@
 (package-initialize)
 
+;; Start server
+(require 'server)
+(setq server-client-instructions nil)
+(unless (server-running-p)
+  (server-start))
+
 ;; Load Emacs configuration                          
 (org-babel-load-file "~/.emacs.d/rkiggen.org")
 (custom-set-variables
