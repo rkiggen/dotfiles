@@ -23,32 +23,23 @@
 
 (add-hook 'emacs-startup-hook #'efs/display-startup-time)
 
-;; create backups in a separate folder
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
-  backup-by-copying t    ; Don't delink hardlinks
-  version-control t      ; Use version numbers on backups
-  delete-old-versions t  ; Automatically delete excess backups
-  kept-new-versions 20   ; how many of the newest versions to keep
-  kept-old-versions 5    ; and how many of the old
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1)
+  :config (column-number-mode 1)
+  :custom
+  (doom-modeline-height 30)
+  (doom-modeline-window-width-limit nil)
+  (doom-modeline-buffer-file-name-style 'truncate-with-project)
+  (doom-modeline-minor-modes nil)
+  (doom-modeline-enable-word-count nil)
+  (doom-modeline-buffer-encoding nil)
+  (doom-modeline-buffer-modification-icon t)
+  (doom-modeline-env-python-executable "python")
+  ;; needs display-time-mode to be one
+  (doom-modeline-time t)
+  (doom-modeline-vcs-max-length 50)
   )
-
-;; Don't write lock-files
-(setq create-lockfiles nil)
-
-;; Create a keyboard-centric user interface
-
-;; don't display startup messages
-(setq inhibit-startup-message t)
-;; disable the toolbar
-(tool-bar-mode -1)
-;; disable the menubar (you can access the menu via 'C-mouse-3'
-(menu-bar-mode -1)
-;; disable the scrollbars
-(scroll-bar-mode -1)
-;; display line numbers in every buffer
-(global-display-line-numbers-mode 1) 
-
-(defalias 'yes-or-no-p 'y-or-n-p)
 
 (use-package doom-themes
   :config
@@ -62,46 +53,6 @@
           modus-themes-org-blocks 'gray-background
           doom-dark+-blue-modeline nil)
     (load-theme chosen-theme t)))
-
-(use-package diminish
-  :config
-  (diminish 'visual-line-mode))
-
-(defun pt/project-relative-file-name (include-prefix)
-  "Return the project-relative filename, or the full path if INCLUDE-PREFIX is t."
-  (letrec
-      ((fullname (if (equal major-mode 'dired-mode) default-directory (buffer-file-name)))
-       (root (project-root (project-current)))
-       (relname (if fullname (file-relative-name fullname root) fullname))
-       (should-strip (and root (not include-prefix))))
-    (if should-strip relname fullname)))
-
-(use-package mood-line
-  :config
-  (defun pt/mood-line-segment-project-advice (oldfun)
-    "Advice to use project-relative file names where possible."
-    (let
-        ((project-relative (ignore-errors (pt/project-relative-file-name nil))))
-         (if
-             (and (project-current) (not org-src-mode) project-relative)
-             (propertize (format "%s  " project-relative) 'face 'mood-line-buffer-name)
-           (funcall oldfun))))
-
-  (advice-add 'mood-line-segment-buffer-name :around #'pt/mood-line-segment-project-advice)
-  (mood-line-mode))
-
-;; Wrap lines near 120 characters
-(setq-default fill-column 120)  
-(add-hook 'text-mode-hook 'auto-fill-mode)
-
-;; Overwrite selected text
-(delete-selection-mode t)
-
-;; Scroll to the first and last line of the buffer
-(setq scroll-error-top-bottom t)
-
-;; highlight the current line
-(global-hl-line-mode)
 
 ;;; Vim Bindings
 (use-package evil
@@ -122,6 +73,8 @@
   :config
   (setq evil-want-integration t)
   (evil-collection-init))
+
+
 
 ;; Configure Tempel
 (use-package tempel
@@ -168,6 +121,48 @@
 ;;(use-package corfu
 ;;  :init
 ;;  (global-corfu-mode))
+
+;; create backups in a separate folder
+(setq backup-directory-alist '(("." . "~/.emacs.d/backups"))
+  backup-by-copying t    ; Don't delink hardlinks
+  version-control t      ; Use version numbers on backups
+  delete-old-versions t  ; Automatically delete excess backups
+  kept-new-versions 20   ; how many of the newest versions to keep
+  kept-old-versions 5    ; and how many of the old
+  )
+
+;; Don't write lock-files
+(setq create-lockfiles nil)
+
+;; Create a keyboard-centric user interface
+
+;; don't display startup messages
+(setq inhibit-startup-message t)
+;; disable the toolbar
+(tool-bar-mode -1)
+;; disable the menubar (you can access the menu via 'C-mouse-3'
+(menu-bar-mode -1)
+;; disable the scrollbars
+(scroll-bar-mode -1)
+;; display line numbers in every buffer
+(global-display-line-numbers-mode 1) 
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Wrap lines near 120 characters
+(setq-default fill-column 120)  
+(add-hook 'text-mode-hook 'auto-fill-mode)
+
+;; Overwrite selected text
+(delete-selection-mode t)
+
+;; Scroll to the first and last line of the buffer
+(setq scroll-error-top-bottom t)
+
+;; highlight the current line
+(global-hl-line-mode)
+
+
 
 ; Reveal.js + Org mode
 (use-package ox-reveal
@@ -224,3 +219,9 @@
     (find-file mwf-init-file)))
 
 (global-set-key (kbd "C-c i") 'edit-init-file)
+
+(defun some-function () org-agenda-files)
+
+(defun some-function()
+  (append org-agenda-files
+    (file-expand-wildcards "your-path/*.org")))

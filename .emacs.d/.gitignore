@@ -3,7 +3,7 @@ session.*
 
 # Exclude these folders:
 /auto-save-list/
-/backup/
+/backups/
 /eln-cache/
 /elpa/
 /eshell/
