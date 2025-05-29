@@ -1,0 +1,15 @@
+eval "$(starship init zsh)"
+pfetch
+
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+function coffee() {
+    ~/Projects/Development/rkiggen/scripts/coffee.sh
+}
