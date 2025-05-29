@@ -1,6 +1,20 @@
 #+title: My collection of dotfiles
 #+author: Rob Kiggen
 
-This repository stores my personal .dotfiles.
-Most of my configuration nowadays is managed via Nix.
+Although I use NixOS for my personal laptop, I still like to keep my configurations in good old dotfiles.
+
+_So why am I not using Home-Manager for this?_
+
+1. I like to tinker with my configurations (think emacs, vim and such) and I find rebuilding the entire system to see my
+   change in action very cumbersome;
+2. For work I have to work on a variety of other machines (Windows, Ubuntu, Rocky Linux, ...) where I still like to use
+   the same configurations for most of my apps.
+
+But managing a host of dotfiles isn't always simple, which is why I am using [[https://www.chezmoi.io/][chezmoi]] nowadays.
+
+
+
+
+
+
 
