@@ -1,0 +1,16 @@
+
+# Emacs
+**/autosave/
+**/autosave/**/*
+**/backups/ 
+**/backups/**/*
+**/bin/
+**/bin/**/*
+**/eln-cache/
+**/eln-cache/**/*
+**/elpa/
+**/elpa/**/*
+**/server/
+**/server/**/*
+**/transient/
+**/transient/**/*
