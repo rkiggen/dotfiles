@@ -1,4 +1,6 @@
 eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
+
 pfetch
 
 function yy() {
