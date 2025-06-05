@@ -2,6 +2,8 @@
 # Emacs
 **/autosave/
 **/autosave/**/*
+**/auto-save-list/
+**/auto-save-list/**/*
 **/backups/ 
 **/backups/**/*
 **/bin/
