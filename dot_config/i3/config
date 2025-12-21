@@ -8,7 +8,7 @@
 
 ## Initialization
 set $TERMINAL wezterm
-set $DOTFILES /home/rkiggen/.dotfiles
+set $WALLPAPERS /home/rkiggen/Pictures/wallpapers
 set $I3_CONFIG /home/rkiggen/.config/i3
 set $I3BLOCKS_CONFIG /home/rkiggen/.config/i3blocks
 set $DIM_LIGHT light -U 10
@@ -325,10 +325,10 @@ bindsym $mod+Shift+Escape mode "$mode_system"
 # Start up Applications ##
 
 # set wallpaper
-exec --no-startup-id feh --bg-fill $DOTFILES/assets/wallpaper_desert.jpg
+exec --no-startup-id feh --bg-fill $WALLPAPERS/wallpaper_desert.jpg
 
 # auto order displays
-#exec --no-startup-id $I3_CONFIG/scripts/autoxrandr.sh
+exec --no-startup-id $I3_CONFIG/scripts/autoxrandr.sh
 
 #start dunst (notifications)
 exec --no-startup-id dunst
@@ -337,19 +337,19 @@ exec --no-startup-id dunst
 exec --no-startup-id $I3_CONFIG/scripts/switch-caps-cntrl.sh
 
 # start terminal filemanager (ranger)
-exec --no-startup-id alacritty --class filemanager_scratchpad -e ranger
+exec --no-startup-id wezterm --class filemanager_scratchpad start ranger
 
 # start volume control (ncpamixer)
-exec --no-startup-id alacritty --class volume_scratchpad -e ncpamixer
+exec --no-startup-id wezterm --class volume_scratchpad start ncpamixer
 
 # start music player (ncmpcpp)
-exec --no-startup-id alacritty --class music_scratchpad -e ncmpcpp
+exec --no-startup-id wezterm --class music_scratchpad start ncmpcpp
 
 # open cheat sheet 
-#exec --no-startup-id alacritty --class info_scratchpad -e emacs -nw $HOME/Documents/cheatsheet.org
+#exec --no-startup-id wezterm --class info_scratchpad start emacs -nw $HOME/Documents/cheatsheet.org
 
 # start terminal (urxvt)
-exec --no-startup-id alacritty --class terminal_scratchpad -e tmux new-session -D -s term
+exec --no-startup-id wezterm --class terminal_scratchpad start tmux new-session -D -s term
 
 # start keepassxc
 exec_always --no-startup-id pgrep -f '^keepassxc' || keepassxc &

@@ -66,7 +66,7 @@ full_text=
 [datetime]
 label=
 #command=$SCRIPT_DIR/datetime
-command=date '+(W%W) %a %d %b  %H:%M'
+command=date '+%a %d %b (W%W) 󰥔  %H:%M' 
 interval=5
 color=#119966
 
@@ -80,3 +80,7 @@ full_text=⏻
 command=$SCRIPT_DIR/shutdown_menu
 #LAUNCHER=rofi
 #ROFI_TEXT=Power menu
+
+[spacer_right]
+full_text=  
+

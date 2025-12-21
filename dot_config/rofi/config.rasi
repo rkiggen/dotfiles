@@ -60,7 +60,7 @@ configuration {
 /*	display-windowcd: ;*/
 /*	display-run: ;*/
 /*	display-ssh: ;*/
-	display-drun: "Applications";
+	display-drun: "";
 /*	display-combi: ;*/
 /*	display-keys: ;*/
 /*	display-filebrowser: ;*/
@@ -153,6 +153,7 @@ window{
 }
 //@theme "/usr/share/rofi/themes/DarkBlue.rasi"
 //@theme "/usr/share/rofi/themes/Pop-Dark.rasi"
-@theme "./themes/my_theme.rasi"
+//@theme "./themes/my_theme.rasi"
+@theme "./themes/style-5.rasi"
 //@theme "./themes/style_11.rasi"
 
