@@ -1,6 +1,11 @@
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 
+if [ -z "$TMUX" ]
+then
+    tmux attach -t TMUX || tmux new -s TMUX
+fi
+
 export PATH=$PATH:~/.local/bin
 
 pfetch
