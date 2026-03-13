@@ -1,6 +1,8 @@
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 
+export PATH=$PATH:~/.local/bin
+
 pfetch
 
 function yy() {
@@ -12,6 +14,3 @@ function yy() {
 	rm -f -- "$tmp"
 }
 
-function coffee() {
-    ~/Projects/Development/rkiggen/scripts/coffee.sh
-}
