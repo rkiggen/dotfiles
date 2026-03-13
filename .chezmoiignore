@@ -6,8 +6,6 @@
 **/auto-save-list/**/*
 **/backups/ 
 **/backups/**/*
-**/bin/
-**/bin/**/*
 **/eln-cache/
 **/eln-cache/**/*
 **/elpa/
