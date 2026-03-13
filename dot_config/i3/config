@@ -7,7 +7,6 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 ## Initialization
-set $TERMINAL wezterm
 set $WALLPAPERS /home/rkiggen/Pictures/wallpapers
 set $I3_CONFIG /home/rkiggen/.config/i3
 set $I3BLOCKS_CONFIG /home/rkiggen/.config/i3blocks
@@ -19,7 +18,7 @@ include $I3_CONFIG/themes/dracula.conf
 include $I3_CONFIG/rules.conf
 
 # auto order displays
-exec --no-startup-id $I3_CONFIG/scripts/autoxrandr.sh
+#exec --no-startup-id $I3_CONFIG/scripts/autoxrandr.sh
 
 ## Workspaces
 # I consider workspaces to be contexts in which I work 
@@ -88,7 +87,7 @@ bindsym $mod+Control+x exec $I3_CONFIG/scripts/rofi-xrandr-menu.sh
 bindsym $mod+Control+s exec $I3_CONFIG/scripts/rofi-scrot-menu.sh
 
 # open terminal, i3-sensible-terminal looks at the $TERMINAL variable 
-bindsym $mod+Return exec $TERMINAL -e tmux
+bindsym $mod+Return exec alacritty -e tmux
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -324,11 +323,11 @@ bindsym $mod+Shift+Escape mode "$mode_system"
 
 # Start up Applications ##
 
-# set wallpaper
-exec --no-startup-id feh --bg-fill $WALLPAPERS/wallpaper_desert.jpg
-
 # auto order displays
-exec --no-startup-id $I3_CONFIG/scripts/autoxrandr.sh
+exec --no-startup-id autorandr --change
+
+# set wallpaper
+exec --no-startup-id sh -c "sleep 1 && feh --bg-fill $WALLPAPERS/wallpaper_desert.jpg"
 
 #start dunst (notifications)
 exec --no-startup-id dunst
@@ -336,20 +335,20 @@ exec --no-startup-id dunst
 # start xmodmap
 exec --no-startup-id $I3_CONFIG/scripts/switch-caps-cntrl.sh
 
-# start terminal filemanager (ranger)
-exec --no-startup-id wezterm --class filemanager_scratchpad start ranger
+# start terminal filemanager (yazi)
+exec --no-startup-id alacritty --class filemanager_scratchpad -e yazi
 
 # start volume control (ncpamixer)
-exec --no-startup-id wezterm --class volume_scratchpad start ncpamixer
+exec --no-startup-id alacritty --class volume_scratchpad -e ncpamixer
 
 # start music player (ncmpcpp)
-exec --no-startup-id wezterm --class music_scratchpad start ncmpcpp
+exec --no-startup-id alacritty --class music_scratchpad -e ncmpcpp
 
 # open cheat sheet 
-#exec --no-startup-id wezterm --class info_scratchpad start emacs -nw $HOME/Documents/cheatsheet.org
+#exec --no-startup-id alacritty --class info_scratchpad -e emacs -nw $HOME/Documents/cheatsheet.org
 
 # start terminal (urxvt)
-exec --no-startup-id wezterm --class terminal_scratchpad start tmux new-session -D -s term
+exec --no-startup-id alacritty --class terminal_scratchpad -e tmux new-session -D -s term
 
 # start keepassxc
 exec_always --no-startup-id pgrep -f '^keepassxc' || keepassxc &
