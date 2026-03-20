@@ -1,9 +1,21 @@
 eval "$(starship init zsh)"
 eval "$(direnv hook zsh)"
 
+# Automatically start tmux
 if [ -z "$TMUX" ]
 then
     tmux attach -t TMUX || tmux new -s TMUX
+fi
+
+# Automatically start SSH agent with fixed socked path (for development containers)
+# Set the SSH agent socket to a fixed path
+export SSH_AUTH_SOCK="$HOME/.ssh/agent.sock"
+
+# Check if the ssh-agent is running, if not start it
+ssh-add -l &>/dev/null
+if [ $? -eq 2 ]; then
+    rm -f "$SSH_AUTH_SOCK"
+    ssh-agent -a "$SSH_AUTH_SOCK" > /dev/null
 fi
 
 export PATH=$PATH:~/.local/bin
