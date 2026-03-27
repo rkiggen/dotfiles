@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [[ "$1" == "run" ]]; then
+    podman run --userns=keep-id "${@:2}"
+else
+    podman "$@"
+fi
